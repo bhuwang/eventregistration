@@ -6,24 +6,18 @@
 package com.bhuwan.eventregistration.business.boundary;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.nio.file.StandardOpenOption;
 import javax.ejb.Stateless;
 import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.JsonReader;
-import javax.json.stream.JsonParser;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -45,6 +39,16 @@ public class EventRegistrationResource {
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("/eventdata/" + id + ".json");
         JsonReader jsonReader = Json.createReader(inputStream);
         return Response.ok(jsonReader.readObject()).header("Access-Control-Allow-Origin", "*").build();
+    }
+    
+    @POST
+    @Path("{id}")
+    public void saveEventData(@PathParam("id") String id, JsonObject eventData) throws IOException, URISyntaxException {
+        System.out.println("Writing to file..................");
+        String path = getClass().getClassLoader().getResource("/eventdata/").getPath();
+        System.out.println(" filepath: "+ path+id+ ".json");
+        System.out.println("Data: "+eventData.toString());
+        Files.write(Paths.get(path + id + ".json"), eventData.toString().getBytes(), StandardOpenOption.CREATE);
     }
     
 }
