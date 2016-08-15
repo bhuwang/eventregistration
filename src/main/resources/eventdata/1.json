@@ -25,7 +25,7 @@
                     "duration": 3,
                     "level": "Introductory",
                     "abstract": "This session will take a closer look at scopes.  Learn what they do, how they do it, and how to get them to do it for you.",
-                    "upVoteCount": 0
+                    "upVoteCount": 3
                 },
                 {
 					"id": 3,
@@ -34,7 +34,7 @@
                     "duration": 2,
                     "level": "Intermediate",
                     "abstract": "Controllers are the beginning of everything Angular does.  Learn how to craft controllers that will win the respect of your friends and neighbors.",
-                    "upVoteCount": 0
+                    "upVoteCount": 2
                 }
             ]
         }
