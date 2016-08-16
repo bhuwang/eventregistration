@@ -15,7 +15,6 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.StringJoiner;
 import javax.ejb.Stateless;
 import javax.json.Json;
 import javax.json.JsonObject;
