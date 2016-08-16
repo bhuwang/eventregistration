@@ -56,14 +56,30 @@ public class EventRegistrationResource {
         }
         return Response.ok(array.toString()).header("Access-Control-Allow-Origin", "*").build();
     }
+    
+    @GET
+    public Response getMaxEventId() throws FileNotFoundException, IOException {
+        String path = getClass().getClassLoader().getResource("/eventdata/").getPath();
+        File eventDataDirectory = new File(path);
+        String[] list = eventDataDirectory.list();
+        JsonArray array = new JsonArray();
+        for (String fileName : list) {
+            array.add(new JsonParser().parse(FileUtils.readFileToString(Paths.get(path + fileName).toFile())));
+        }
+        return Response.ok(array.toString()).header("Access-Control-Allow-Origin", "*").build();
+    }
 
     @POST
     @Path("{id}")
     public void saveEventData(@PathParam("id") String id, JsonObject eventData) throws IOException, URISyntaxException {
         String path = getClass().getClassLoader().getResource("/eventdata/").getPath();
-        System.out.println(" filepath: " + path + id + ".json");
-        System.out.println("Data: " + eventData.toString());
-        Files.write(Paths.get(path + id + ".json"), eventData.toString().getBytes(), StandardOpenOption.CREATE);
+        String filePath = path + id + ".json";
+        while(new File(filePath).exists()){
+            int fileId = Integer.valueOf(id) + 1;
+            filePath = (path + fileId) + ".json";
+        }
+        System.out.println(" filepath: " + filePath);
+        Files.write(Paths.get(filePath), eventData.toString().getBytes(), StandardOpenOption.CREATE);
     }
 
 }
